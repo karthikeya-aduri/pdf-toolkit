@@ -25,61 +25,74 @@ class Application:
         e.widget['background']=self.windowBgdColor
 
     def createWidgets(self,toolsFrame,mainFrame):
+        usrChoice = tk.IntVar()
         toolsLabel = tk.Label(toolsFrame, 
                               text="Tools",
                               font=(self.windowFont,24,"underline"),
                               bg=self.windowBgdColor,
                               fg=self.fontColor
                               )
-        mergeBtn = tk.Button(toolsFrame, 
-                             width="250",
-                             command=lambda: self.displayMergePage(mainFrame),
-                             text="Merge PDFs",
-                             font=(self.windowFont,18),
-                             fg=self.fontColor,
-                             background=self.windowBgdColor,
-                             activebackground=self.windowBgdColor,
-                             activeforeground=self.fontColor,
-                             relief=tk.FLAT
-                             )
-        splitBtn = tk.Button(toolsFrame, 
-                             width="250",
-                             command=lambda: self.displaySplitPage(mainFrame),
-                             text="Split PDF",
-                             font=(self.windowFont,18),
-                             fg=self.fontColor,
-                             background=self.windowBgdColor,
-                             activebackground=self.windowBgdColor,
-                             activeforeground=self.fontColor,
-                             relief=tk.FLAT
-                             )
-        deleteBtn = tk.Button(toolsFrame, 
-                              width="250",
-                              command=lambda: self.displayDeletePage(mainFrame),
-                              text="Delete Pages",
-                              font=(self.windowFont,18),
-                              fg=self.fontColor,
-                              background=self.windowBgdColor,
-                              activebackground=self.windowBgdColor,
-                              activeforeground=self.fontColor,
-                              relief=tk.FLAT
-                              )
-        rotateBtn = tk.Button(toolsFrame, 
-                              width="250",
-                              command=lambda: self.displayRotatePage(mainFrame),
-                              text="Rotate Pages",
-                              font=(self.windowFont,18),
-                              fg=self.fontColor,
-                              background=self.windowBgdColor,
-                              activebackground=self.windowBgdColor,
-                              activeforeground=self.fontColor,
-                              relief=tk.FLAT
-                              )
-        toolsLabel.pack(pady=10)
-        mergeBtn.pack()
-        splitBtn.pack(pady=10)
-        deleteBtn.pack()
-        rotateBtn.pack(pady=10)
+        mergeBtn = tk.Radiobutton(toolsFrame, 
+                                  variable=usrChoice,
+                                  value=1,
+                                  command=lambda: self.displayMergePage(mainFrame),
+                                  text="Merge PDFs",
+                                  font=(self.windowFont,19),
+                                  fg=self.fontColor,
+                                  background=self.windowBgdColor,
+                                  activebackground=self.windowBgdColor,
+                                  activeforeground=self.fontColor,
+                                  indicatoron=False,
+                                  selectcolor=self.hoverColor,
+                                  borderwidth=0
+                                  )
+        splitBtn = tk.Radiobutton(toolsFrame, 
+                                  variable=usrChoice,
+                                  value=2,
+                                  command=lambda: self.displaySplitPage(mainFrame),
+                                  text="Split PDF",
+                                  font=(self.windowFont,19),
+                                  fg=self.fontColor,
+                                  background=self.windowBgdColor,
+                                  activebackground=self.windowBgdColor,
+                                  activeforeground=self.fontColor,
+                                  indicatoron=False,
+                                  selectcolor=self.hoverColor,
+                                  borderwidth=0
+                                  )
+        deleteBtn = tk.Radiobutton(toolsFrame, 
+                                   variable=usrChoice,
+                                   value=3,
+                                   command=lambda: self.displayDeletePage(mainFrame),
+                                   text="Delete Pages",
+                                   font=(self.windowFont,19),
+                                   fg=self.fontColor,
+                                   background=self.windowBgdColor,
+                                   activebackground=self.windowBgdColor,
+                                   activeforeground=self.fontColor,
+                                   indicatoron=False,
+                                   selectcolor=self.hoverColor,
+                                   borderwidth=0
+                                   )
+        rotateBtn = tk.Radiobutton(toolsFrame, 
+                                   variable=usrChoice,
+                                   value=4,
+                                   command=lambda: self.displayRotatePage(mainFrame),
+                                   text="Rotate Pages",
+                                   font=(self.windowFont,19),
+                                   fg=self.fontColor,
+                                   background=self.windowBgdColor,
+                                   activebackground=self.windowBgdColor,
+                                   activeforeground=self.fontColor,
+                                   indicatoron=False,
+                                   selectcolor=self.hoverColor,
+                                   borderwidth=0
+                                   )
+        toolsLabel.pack(pady=20)
+        mergeBtn.pack(fill=tk.X)
+        splitBtn.pack(fill=tk.X, pady=20)
+        deleteBtn.pack(fill=tk.X)
+        rotateBtn.pack(fill=tk.X, pady=20)
 
         mergeBtn.bind("<Enter>",self.onEnter)
         mergeBtn.bind("<Leave>",self.onLeave)
@@ -634,8 +647,7 @@ class Application:
         window.title("PDF Toolkit")
 
         window.geometry("800x600")
-        window.minsize(width=800,height=600)
-        window.maxsize(width=800,height=600)
+        window.resizable(False, False)
 
         toolsFrame = tk.Frame(window, bg=self.windowBgdColor, highlightthickness=0.75, highlightbackground=self.borderColor)
         toolsFrame.configure(width=230,height=600)
