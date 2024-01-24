@@ -5,7 +5,7 @@ from PyPDF2 import PdfWriter, PdfReader
 from os import listdir
 
 class Application:
-    windowBgdColor = "#121212"
+    windowBgdColor = "#161616"
     windowFont = "Courier"
     fontColor = "#FFFFFF"
     borderColor = "#3B3B3B"
@@ -25,13 +25,27 @@ class Application:
         e.widget['background']=self.windowBgdColor
 
     def createWidgets(self,toolsFrame,mainFrame):
-        usrChoice = tk.IntVar()
+        usrChoice = tk.IntVar(value=-1)
         toolsLabel = tk.Label(toolsFrame, 
                               text="Tools",
                               font=(self.windowFont,24,"underline"),
                               bg=self.windowBgdColor,
                               fg=self.fontColor
                               )
+        openBtn = tk.Radiobutton(toolsFrame, 
+                                 variable=usrChoice,
+                                 value=0,
+                                 command=lambda: self.displayOpenPage(mainFrame),
+                                 text="Open PDF",
+                                 font=(self.windowFont,19),
+                                 fg=self.fontColor,
+                                 background=self.windowBgdColor,
+                                 activebackground=self.windowBgdColor,
+                                 activeforeground=self.fontColor,
+                                 indicatoron=False,
+                                 selectcolor=self.hoverColor,
+                                 borderwidth=0
+                                 )
         mergeBtn = tk.Radiobutton(toolsFrame, 
                                   variable=usrChoice,
                                   value=1,
@@ -89,11 +103,14 @@ class Application:
                                    borderwidth=0
                                    )
         toolsLabel.pack(pady=20)
-        mergeBtn.pack(fill=tk.X)
-        splitBtn.pack(fill=tk.X, pady=20)
-        deleteBtn.pack(fill=tk.X)
-        rotateBtn.pack(fill=tk.X, pady=20)
+        openBtn.pack(fill=tk.X,pady=5)
+        mergeBtn.pack(fill=tk.X,pady=20)
+        splitBtn.pack(fill=tk.X,pady=5)
+        deleteBtn.pack(fill=tk.X,pady=20)
+        rotateBtn.pack(fill=tk.X,pady=5)
 
+        openBtn.bind("<Enter>",self.onEnter)
+        openBtn.bind("<Leave>",self.onLeave)
         mergeBtn.bind("<Enter>",self.onEnter)
         mergeBtn.bind("<Leave>",self.onLeave)
         splitBtn.bind("<Enter>",self.onEnter)
@@ -102,6 +119,9 @@ class Application:
         deleteBtn.bind("<Leave>",self.onLeave)
         rotateBtn.bind("<Enter>",self.onEnter)
         rotateBtn.bind("<Leave>",self.onLeave)
+
+    def openPdf(self,label2):
+        self.addPdf(label2)
 
     def addPdf(self,label2):
         self.tempFilePath = tkfd.askopenfilename()
@@ -336,13 +356,59 @@ class Application:
             frame.destroy()
         self.tempFilePath=''
 
+    def displayOpenPage(self,mainFrame):
+        self.clearMainFrame(mainFrame)
+        openFrame = tk.Frame(mainFrame, bg=self.windowBgdColor, borderwidth=0, highlightbackground=self.borderColor)
+        openFrame.configure(width=570,height=200)
+        openFrame.pack_propagate(False)
+        rfFrame = tk.Frame(mainFrame, bg=self.windowBgdColor, borderwidth=0, highlightbackground=self.borderColor)
+        rfFrame.configure(width=570,height=400)
+        rfFrame.pack_propagate(False)
+        label1 = tk.Label(openFrame,
+                          text="Click the following button to add the PDF file you wish to open.",
+                          font=(self.windowFont,19),
+                          bg=self.windowBgdColor,
+                          fg=self.fontColor,
+                          wraplength=500
+                          )
+        label2 = tk.Label(openFrame,
+                          text="Total number of Pages : ",
+                          font=(self.windowFont,19),
+                          bg=self.windowBgdColor,
+                          fg=self.fontColor,
+                          wraplength=500
+                          )
+        btn1 = tk.Button(openFrame,
+                         text="Add PDF",
+                         command=lambda: self.openPdf(label2),
+                         font=(self.windowFont, 19),
+                         bg=self.btnColor,
+                         fg=self.fontColor,
+                         activebackground=self.hoverColor,
+                         activeforeground=self.fontColor,
+                         relief=tk.FLAT
+                         )
+        label3 = tk.Label(rfFrame,
+                          text="Recent Files :",
+                          font=(self.windowFont,19,"underline"),
+                          bg=self.windowBgdColor,
+                          fg=self.fontColor,
+                          wraplength=500
+                          )
+        label1.pack(pady=10)
+        btn1.pack()
+        label2.pack(pady=20)
+        label3.grid(row=0,column=0)
+        openFrame.pack()
+        rfFrame.pack()
+
     def displayMergePage(self,mainFrame):
         self.clearMainFrame(mainFrame)
-        mergeFrame1 = tk.Frame(mainFrame, bg=self.windowBgdColor, highlightthickness=0.75, highlightbackground=self.borderColor)
+        mergeFrame1 = tk.Frame(mainFrame, bg=self.windowBgdColor, borderwidth=0, highlightbackground=self.borderColor)
         mergeFrame1.configure(width=570,height=250)
         mergeFrame1.pack_propagate(False)
         
-        mergeFrame2 = tk.Frame(mainFrame, bg=self.windowBgdColor, highlightthickness=0.75, highlightbackground=self.borderColor)
+        mergeFrame2 = tk.Frame(mainFrame, bg=self.windowBgdColor, borderwidth=0, highlightbackground=self.borderColor)
         mergeFrame2.configure(width=570,height=350)
         mergeFrame2.pack_propagate(False)
 
@@ -389,7 +455,7 @@ class Application:
 
     def displaySplitPage(self,mainFrame):
         self.clearMainFrame(mainFrame)
-        splitFrame = tk.Frame(mainFrame, bg=self.windowBgdColor, highlightthickness=0.75, highlightbackground=self.borderColor)
+        splitFrame = tk.Frame(mainFrame, bg=self.windowBgdColor, borderwidth=0, highlightbackground=self.borderColor)
         splitFrame.configure(width=570,height=600)
         splitFrame.pack_propagate(False)
         label1 = tk.Label(splitFrame,
@@ -410,8 +476,15 @@ class Application:
                          relief=tk.FLAT
                          )
         label2 = tk.Label(splitFrame,
-                          text="Total number of Pages : -",
+                          text="Total number of Pages : ",
                           font=(self.windowFont,19),
+                          bg=self.windowBgdColor,
+                          fg=self.fontColor,
+                          wraplength=500
+                          )
+        label3 = tk.Label(splitFrame,
+                          text="(For example: 10,20,26,35. This results in Part-1: 1-10, Part-2: 11-20 and so on. The remaining pages are added automatically to a seperate PDF file)",
+                          font=(self.windowFont,18),
                           bg=self.windowBgdColor,
                           fg=self.fontColor,
                           wraplength=500
@@ -435,13 +508,14 @@ class Application:
         label1.pack(pady=10)
         btn1.pack(pady=10)
         label2.pack(pady=10)
+        label3.pack()
         pagesEntry.pack(pady=15)
         btn2.pack(pady=10)
         splitFrame.pack()
 
     def displayDeletePage(self,mainFrame):
         self.clearMainFrame(mainFrame)
-        delFrame = tk.Frame(mainFrame, bg=self.windowBgdColor, highlightthickness=0.75, highlightbackground=self.borderColor)
+        delFrame = tk.Frame(mainFrame, bg=self.windowBgdColor, borderwidth=0, highlightbackground=self.borderColor)
         delFrame.configure(width=570,height=600)
         delFrame.pack_propagate(False)
         label1 = tk.Label(delFrame,
@@ -462,14 +536,14 @@ class Application:
                          relief=tk.FLAT
                          )
         label2 = tk.Label(delFrame,
-                          text="Total number of Pages : -",
+                          text="Total number of Pages : ",
                           font=(self.windowFont,18),
                           bg=self.windowBgdColor,
                           fg=self.fontColor,
                           wraplength=500
                           )
         label3 = tk.Label(delFrame,
-                          text="(You may use '-' instead of writing every page number. For example: 10,1-3,18-20,14)",
+                          text="(You may use '-' instead of writing every page number. For example: 1-3,10,18-20,14,5-8)",
                           font=(self.windowFont,18),
                           bg=self.windowBgdColor,
                           fg=self.fontColor,
@@ -550,15 +624,15 @@ class Application:
 
     def displayRotatePage(self,mainFrame):
         self.clearMainFrame(mainFrame)
-        rotateFrame = tk.Frame(mainFrame, bg=self.windowBgdColor, highlightthickness=0.75, highlightbackground=self.borderColor)
-        rotateFrame.configure(width=570,height=600)
+        rotateFrame = tk.Frame(mainFrame, bg=self.windowBgdColor, borderwidth=0, highlightbackground=self.borderColor)
+        rotateFrame.configure(width=570,height=360)
         rotateFrame.pack_propagate(False)
         label1 = tk.Label(rotateFrame,
                           text="Click the following button to add the PDF, enter the page numbers that should be rotated (seperated by ,) and choose the rotational options",
                           font=(self.windowFont,17),
                           bg=self.windowBgdColor,
                           fg=self.fontColor,
-                          wraplength=570
+                          wraplength=550
                           )
         btn1 = tk.Button(rotateFrame,
                          text="Add PDF",
@@ -571,26 +645,52 @@ class Application:
                          relief=tk.FLAT
                          )
         label2 = tk.Label(rotateFrame,
-                          text="Total number of Pages : -",
+                          text="Total number of Pages : ",
                           font=(self.windowFont,17),
                           bg=self.windowBgdColor,
                           fg=self.fontColor,
-                          wraplength=570
+                          wraplength=550
                           )
         label3 = tk.Label(rotateFrame,
-                          text="(You may use '-' instead of writing every page number. For example: 10,1-3,18-20,14)",
-                          font=(self.windowFont,16),
+                          text="(You may use '-' instead of writing every page number. For example: 1-3,10,18-20,14,5-8)",
+                          font=(self.windowFont,17),
                           bg=self.windowBgdColor,
                           fg=self.fontColor,
-                          wraplength=570
+                          wraplength=550
                           )
         pagesEntry = tk.Entry(rotateFrame,
                               width=35,
-                              font=(self.windowFont, 16),
+                              font=(self.windowFont, 17),
                               bg=self.entryColor,
                               fg="#000000"
                               )
-        btn2 = tk.Button(rotateFrame,
+        label1.pack(pady=10)
+        btn1.pack()
+        label2.pack(pady=10)
+        label3.pack()
+        pagesEntry.pack(pady=10)
+        optionsFrame = tk.Frame(mainFrame, bg=self.windowBgdColor, borderwidth=0, highlightbackground=self.borderColor)
+        optionsFrame.configure(width=570,height=240)
+        optionsFrame.pack_propagate(False)
+        rotations = ["Clockwise", "Anti-clockwise"]
+        usrChoice1 = tk.IntVar()
+        for i in range(2):
+            rotateOptions = tk.Radiobutton(optionsFrame,
+                                           width=14,
+                                           text=rotations[i],
+                                           variable=usrChoice1,
+                                           value=i,
+                                           font=(self.windowFont,15),
+                                           bg=self.windowBgdColor,
+                                           fg=self.fontColor,
+                                           activebackground=self.windowBgdColor,
+                                           activeforeground=self.fontColor,
+                                           selectcolor=self.hoverColor,
+                                           indicatoron=False,
+                                           relief=tk.FLAT
+                                           )
+            rotateOptions.grid(row=0,column=i,padx=3,pady=10)
+        btn2 = tk.Button(optionsFrame,
                          text="Rotate",
                          command=lambda: self.rotatePages(pagesEntry,usrChoice1,usrChoice2),
                          font=(self.windowFont,17),
@@ -600,36 +700,15 @@ class Application:
                          activeforeground=self.fontColor,
                          relief=tk.FLAT
                          )
-        label1.pack(pady=10)
-        btn1.pack()
-        label2.pack(pady=10)
-        label3.pack()
-        pagesEntry.pack(pady=15)
-        rotations = ["Clockwise", "Anti-clockwise"]
-        usrChoice1 = tk.IntVar()
-        for i in range(2):
-            rotateOptions = tk.Radiobutton(rotateFrame,
-                                           text=rotations[i],
-                                           variable=usrChoice1,
-                                           value=i,
-                                           font=(self.windowFont,14),
-                                           bg=self.windowBgdColor,
-                                           fg=self.fontColor,
-                                           activebackground=self.windowBgdColor,
-                                           activeforeground=self.fontColor,
-                                           selectcolor=self.hoverColor,
-                                           indicatoron=False,
-                                           relief=tk.FLAT
-                                           )
-            rotateOptions.pack(pady=3, fill=tk.X)
         angles = ["Rotate 90°", "Rotate 180°", "Rotate 270°"]
         usrChoice2 = tk.IntVar()
         for i in range(3):
-            angleOptions = tk.Radiobutton(rotateFrame,
+            angleOptions = tk.Radiobutton(optionsFrame,
+                                          width=14,
                                           text=angles[i],
                                           variable=usrChoice2,
                                           value=i,
-                                          font=(self.windowFont, 14),
+                                          font=(self.windowFont, 15),
                                           bg=self.windowBgdColor,
                                           fg=self.fontColor,
                                           activebackground=self.windowBgdColor,
@@ -638,9 +717,10 @@ class Application:
                                           indicatoron=False,
                                           relief=tk.FLAT,
                                           )
-            angleOptions.pack(pady=3, fill=tk.X)
-        btn2.pack(pady=10)
+            angleOptions.grid(row=1,column=i,padx=3,pady=10)
+        btn2.grid(row=2,column=1,pady=10)
         rotateFrame.pack() 
+        optionsFrame.pack()
 
     def createWindow(self):
         window = tk.Tk()
