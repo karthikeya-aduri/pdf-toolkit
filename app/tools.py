@@ -32,20 +32,6 @@ class Application:
                               bg=self.windowBgdColor,
                               fg=self.fontColor
                               )
-        openBtn = tk.Radiobutton(toolsFrame, 
-                                 variable=usrChoice,
-                                 value=0,
-                                 command=lambda: self.displayOpenPage(mainFrame),
-                                 text="Open PDF",
-                                 font=(self.windowFont,19),
-                                 fg=self.fontColor,
-                                 background=self.windowBgdColor,
-                                 activebackground=self.windowBgdColor,
-                                 activeforeground=self.fontColor,
-                                 indicatoron=False,
-                                 selectcolor=self.hoverColor,
-                                 borderwidth=0
-                                 )
         mergeBtn = tk.Radiobutton(toolsFrame, 
                                   variable=usrChoice,
                                   value=1,
@@ -102,15 +88,27 @@ class Application:
                                    selectcolor=self.hoverColor,
                                    borderwidth=0
                                    )
-        toolsLabel.pack(pady=20)
-        openBtn.pack(fill=tk.X,pady=5)
+        textBtn = tk.Radiobutton(toolsFrame, 
+                                 variable=usrChoice,
+                                 value=0,
+                                 command=lambda: self.displayTextPage(mainFrame),
+                                 text="Extract Text",
+                                 font=(self.windowFont,19),
+                                 fg=self.fontColor,
+                                 background=self.windowBgdColor,
+                                 activebackground=self.windowBgdColor,
+                                 activeforeground=self.fontColor,
+                                 indicatoron=False,
+                                 selectcolor=self.hoverColor,
+                                 borderwidth=0
+                                 )
+        toolsLabel.pack(pady=5)
         mergeBtn.pack(fill=tk.X,pady=20)
         splitBtn.pack(fill=tk.X,pady=5)
         deleteBtn.pack(fill=tk.X,pady=20)
         rotateBtn.pack(fill=tk.X,pady=5)
+        textBtn.pack(fill=tk.X,pady=20)
 
-        openBtn.bind("<Enter>",self.onEnter)
-        openBtn.bind("<Leave>",self.onLeave)
         mergeBtn.bind("<Enter>",self.onEnter)
         mergeBtn.bind("<Leave>",self.onLeave)
         splitBtn.bind("<Enter>",self.onEnter)
@@ -119,18 +117,46 @@ class Application:
         deleteBtn.bind("<Leave>",self.onLeave)
         rotateBtn.bind("<Enter>",self.onEnter)
         rotateBtn.bind("<Leave>",self.onLeave)
+        textBtn.bind("<Enter>",self.onEnter)
+        textBtn.bind("<Leave>",self.onLeave)
 
-    def openPdf(self,label):
+    def extractTextFromPdf(self,label):
         self.addPdf(label)
-        
-    def addPdf(self,label2):
+        if self.tempFilePath:
+            pdfWindow = tk.Tk()
+            screenWidth = pdfWindow.winfo_screenwidth()
+            screenHeight = pdfWindow.winfo_screenheight()
+            pdfWindow.title("Text inside "+self.tempFilePath)
+            pdfWindow.configure(width=screenWidth, height=screenHeight)
+            pdfWindow.state('zoomed')
+            reader = PdfReader(self.tempFilePath)
+            noOfPages = len(reader.pages)
+            textArea = tk.Text(pdfWindow,
+                               wrap="word",
+                               height=screenHeight,
+                               width=screenWidth,
+                               font=(self.windowFont, 17),
+                               bg=self.windowBgdColor,
+                               fg=self.fontColor
+                               )
+            scrolly = tk.Scrollbar(pdfWindow, command=textArea.yview)
+            textArea.config(yscrollcommand=scrolly.set)
+            for i in range(noOfPages):
+                tempText = reader.pages[i].extract_text()
+                textArea.insert(tk.END,tempText+"\n\n")
+            textArea.see("1.0")
+            scrolly.pack(side=tk.RIGHT,fill=tk.Y)
+            textArea.pack(side=tk.LEFT,fill=tk.BOTH,expand=True)
+            pdfWindow.mainloop()
+
+    def addPdf(self,label):
         self.tempFilePath = tkfd.askopenfilename()
         if not self.tempFilePath:
             tkmb.showerror('Split Error', 'Error: No file was selected')
         else:
             reader = PdfReader(self.tempFilePath)
             noOfPages = len(reader.pages)
-            label2.configure(text=("Total number of Pages : "+str(noOfPages)))
+            label.configure(text=("Total number of Pages : "+str(noOfPages)))
 
     def addPdfFiles(self):
         filePaths = []
@@ -356,14 +382,14 @@ class Application:
             frame.destroy()
         self.tempFilePath=''
 
-    def displayOpenPage(self,mainFrame):
+    def displayTextPage(self,mainFrame):
         self.clearMainFrame(mainFrame)
         frame1 = tk.Frame(mainFrame, bg=self.windowBgdColor, borderwidth=0, highlightbackground=self.borderColor)
         frame1.configure(width=570,height=600)
         frame1.pack_propagate(False)
         frame2 = tk.Frame(frame1, bg=self.windowBgdColor, borderwidth=0, highlightbackground=self.borderColor)
         label1 = tk.Label(frame2,
-                          text="Click the following button to add the PDF file you wish to open.",
+                          text="Click the following button to add the PDF file you wish to extact text from.",
                           font=(self.windowFont,19),
                           bg=self.windowBgdColor,
                           fg=self.fontColor,
@@ -378,7 +404,7 @@ class Application:
                           )
         btn1 = tk.Button(frame2,
                          text="Add PDF",
-                         command=lambda: self.openPdf(label2),
+                         command=lambda: self.extractTextFromPdf(label2),
                          font=(self.windowFont, 19),
                          bg=self.btnColor,
                          fg=self.fontColor,
