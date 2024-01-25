@@ -744,6 +744,7 @@ class Application:
 
         window.geometry("800x600")
         window.resizable(False, False)
+        window.iconbitmap('icon.ico')
 
         toolsFrame = tk.Frame(window, bg=self.windowBgdColor, highlightthickness=0.75, highlightbackground=self.borderColor)
         toolsFrame.configure(width=230,height=600)
