@@ -1,8 +1,8 @@
 import tkinter as tk
 import tkinter.filedialog as tkfd
 import tkinter.messagebox as tkmb
+import os
 from PyPDF2 import PdfWriter, PdfReader
-from os import listdir
 
 class Application:
     windowBgdColor = "#161616"
@@ -120,9 +120,9 @@ class Application:
         rotateBtn.bind("<Enter>",self.onEnter)
         rotateBtn.bind("<Leave>",self.onLeave)
 
-    def openPdf(self,label2):
-        self.addPdf(label2)
-
+    def openPdf(self,label):
+        self.addPdf(label)
+        
     def addPdf(self,label2):
         self.tempFilePath = tkfd.askopenfilename()
         if not self.tempFilePath:
@@ -154,7 +154,7 @@ class Application:
             tkmb.showerror('Merge Error', 'Error: No directory was selected')
         else:
             filePaths = []
-            for eachFile in listdir(directoryPath):
+            for eachFile in os.listdir(directoryPath):
                 if eachFile.endswith(".pdf"):
                     tempPath=directoryPath+'/'+eachFile
                     filePaths.append(tempPath)
@@ -358,27 +358,25 @@ class Application:
 
     def displayOpenPage(self,mainFrame):
         self.clearMainFrame(mainFrame)
-        openFrame = tk.Frame(mainFrame, bg=self.windowBgdColor, borderwidth=0, highlightbackground=self.borderColor)
-        openFrame.configure(width=570,height=200)
-        openFrame.pack_propagate(False)
-        rfFrame = tk.Frame(mainFrame, bg=self.windowBgdColor, borderwidth=0, highlightbackground=self.borderColor)
-        rfFrame.configure(width=570,height=400)
-        rfFrame.pack_propagate(False)
-        label1 = tk.Label(openFrame,
+        frame1 = tk.Frame(mainFrame, bg=self.windowBgdColor, borderwidth=0, highlightbackground=self.borderColor)
+        frame1.configure(width=570,height=600)
+        frame1.pack_propagate(False)
+        frame2 = tk.Frame(frame1, bg=self.windowBgdColor, borderwidth=0, highlightbackground=self.borderColor)
+        label1 = tk.Label(frame2,
                           text="Click the following button to add the PDF file you wish to open.",
                           font=(self.windowFont,19),
                           bg=self.windowBgdColor,
                           fg=self.fontColor,
                           wraplength=500
                           )
-        label2 = tk.Label(openFrame,
+        label2 = tk.Label(frame2,
                           text="Total number of Pages : ",
                           font=(self.windowFont,19),
                           bg=self.windowBgdColor,
                           fg=self.fontColor,
                           wraplength=500
                           )
-        btn1 = tk.Button(openFrame,
+        btn1 = tk.Button(frame2,
                          text="Add PDF",
                          command=lambda: self.openPdf(label2),
                          font=(self.windowFont, 19),
@@ -388,19 +386,11 @@ class Application:
                          activeforeground=self.fontColor,
                          relief=tk.FLAT
                          )
-        label3 = tk.Label(rfFrame,
-                          text="Recent Files :",
-                          font=(self.windowFont,19,"underline"),
-                          bg=self.windowBgdColor,
-                          fg=self.fontColor,
-                          wraplength=500
-                          )
-        label1.pack(pady=10)
-        btn1.pack()
-        label2.pack(pady=20)
-        label3.grid(row=0,column=0)
-        openFrame.pack()
-        rfFrame.pack()
+        label1.pack()
+        btn1.pack(pady=15)
+        label2.pack()
+        frame1.pack()
+        frame2.place(in_=frame1,anchor=tk.CENTER,relx=.5,rely=.5)
 
     def displayMergePage(self,mainFrame):
         self.clearMainFrame(mainFrame)
@@ -752,4 +742,4 @@ class Application:
 
         window.mainloop()
 
-app = Application()
+run = Application()
