@@ -31,4 +31,5 @@ Note: You can delete build folder, spec file and the python script after install
 
 ## Screenshots
 ![image](./img/Screenshot-1.png)
+
 ![image](./img/Screenshot-2.png)
