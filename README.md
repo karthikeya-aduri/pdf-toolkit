@@ -1,7 +1,7 @@
 ## Installation
-Windows users can use the [Releases](https://github.com/karthikeya-aduri/project-pdf/releases/) page for installation.
+Windows and Linux users can use the [Releases](https://github.com/karthikeya-aduri/project-pdf/releases/) page for installation.
 
-Linux and MacOS users require Python (latest version) and pip before installing the application. Run the following the command
+MacOS users require Python (latest version) and pip before installing the application. Run the following the command
 ```python3
 pip install pyinstaller
 ```
@@ -11,7 +11,7 @@ git clone https://github.com/karthikeya-aduri/project-pdf
 ```
 Then open terminal inside project-pdf folder/directory and run this command
 ```python3
-pyinstaller --name PDFtools --windowed --onefile --icon=icon.ico main.py
+pyinstaller --name PDFtools --windowed --onefile --icon=icon.png main.py
 ```
 Now you will find the app inside dist folder. Place the icon inside dist folder and now you may start using the application.
 
