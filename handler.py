@@ -1,5 +1,4 @@
-import tkinter as tk
-from constants import hoverColor, backgroundColor
+from constants import hoverColor, backgroundColor, eventMap
 
 def onEnter(element):
     element.widget['background'] = hoverColor
@@ -11,8 +10,7 @@ def handleHover(button):
     button.bind("<Enter>", onEnter)
     button.bind("<Leave>", onLeave)
 
-def placeButtons(button, index):
-    if index % 2:
-        button.pack(fill = tk.X, pady = 5)
-    else:
-        button.pack(fill = tk.X, pady = 20)
+def callEventListener(displayContainer, index):
+    func = eventMap[index]
+    if func:
+        func(displayContainer)

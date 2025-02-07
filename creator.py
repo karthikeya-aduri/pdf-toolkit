@@ -1,12 +1,11 @@
 import tkinter as tk
-from handler import handleHover, placeButtons
+from handler import callEventListener, handleHover
+from render import renderButton
 from constants import (
         backgroundColor,
         foregroundColor,
         borderColor,
         hoverColor,
-        buttonColor,
-        entryColor,
         fontFamily
 )
 
@@ -32,14 +31,14 @@ def createFrame(parent, width, height):
     frame.pack_propagate(False)
     return frame
 
-def createHeadingLabel(parent, text):
-    headingLabel = tk.Label(parent,
+def createLabel(parent, fontSize, text, type = ""):
+    label = tk.Label(parent,
                      text = text,
-                     font = (fontFamily, 24, "underline"),
+                     font = (fontFamily, fontSize, type),
                      background = backgroundColor,
                      foreground = foregroundColor
                     )
-    return headingLabel
+    return label
 
 def createRadioButton(parent, value, userInput, text):
     radioButton = tk.Radiobutton(parent,
@@ -62,6 +61,7 @@ def createTools(toolsContainer, displayContainer):
     operations = ["Merge PDFs", "Split PDF", "Delete pages", "Rotate pages"]
     for index, value in enumerate(operations):
         button = createRadioButton(toolsContainer, index, userInput, value)
+        button.configure(command = lambda idx = index : callEventListener(displayContainer, idx))
         handleHover(button)
-        placeButtons(button, index)
+        renderButton(button, index)
 

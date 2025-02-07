@@ -1,3 +1,10 @@
+from render import (
+        renderDeletePage,
+        renderMergePage,
+        renderRotatePage,
+        renderSplitPage
+)
+
 backgroundColor = "#161616"
 foregroundColor = "#FFFFFF"
 borderColor = "#3B3B3B"
@@ -6,3 +13,10 @@ buttonColor = "#0F3180"
 entryColor = "#ACACAC"
 
 fontFamily = "Courier"
+
+eventMap = {
+    0 : renderMergePage,
+    1 : renderSplitPage,
+    2 : renderDeletePage,
+    3 : renderRotatePage
+}

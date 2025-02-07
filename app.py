@@ -1,13 +1,18 @@
 import tkinter as tk
-from creator import createWindow, createFrame, createHeadingLabel, createTools
+from creator import createWindow, createFrame, createLabel, createTools
 
 def main():
     window = createWindow('PDF Toolkit', '800x600', False)
     toolsContainer = createFrame(window, 230, 600)
     displayContainer = createFrame(window, 570, 600)
 
-    toolsContainerLabel = createHeadingLabel(toolsContainer, "Tools:")
+    toolsContainerLabel = createLabel(toolsContainer, 24, "Tools", "underline")
     toolsContainerLabel.pack(pady = 5)
+
+    displayContainerLabel = createLabel(displayContainer, 20,
+                                        "Click the buttons in the tools pane to use the application.")
+    displayContainerLabel.configure(wraplength = 500)
+    displayContainerLabel.place(x = 285, y = 300, anchor = "center")
 
     createTools(toolsContainer, displayContainer)
 
