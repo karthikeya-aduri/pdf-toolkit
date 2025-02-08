@@ -6,6 +6,8 @@ from constants import (
         foregroundColor,
         borderColor,
         hoverColor,
+        buttonColor,
+        entryColor,
         fontFamily
 )
 
@@ -20,25 +22,47 @@ def createWindow(title, geometry, resizableFlag):
 
     return window
 
-def createFrame(parent, width, height):
+def createFrame(parent, width, height, highlightthickness = 0.0):
     frame = tk.Frame(parent,
                      width = width,
                      height = height,
                      background = backgroundColor,
-                     highlightthickness = 0.75,
+                     highlightthickness = highlightthickness,
                      highlightbackground = borderColor
                      )
     frame.pack_propagate(False)
     return frame
 
-def createLabel(parent, fontSize, text, type = ""):
+def createLabel(parent, fontSize, text, wraplength = 0, type = ""):
     label = tk.Label(parent,
                      text = text,
                      font = (fontFamily, fontSize, type),
                      background = backgroundColor,
-                     foreground = foregroundColor
+                     foreground = foregroundColor,
+                     wraplength = wraplength
                     )
     return label
+
+def createButton(parent, text, fontSize):
+    button = tk.Button(parent,
+                       text = text,
+                       font = (fontFamily, fontSize),
+                       background = buttonColor,
+                       foreground = foregroundColor,
+                       activebackground = hoverColor,
+                       activeforeground = foregroundColor,
+                       relief = tk.FLAT
+                       )
+    return button
+
+def createEntry(parent, width, fontSize):
+    entry = tk.Entry(parent,
+                     width = width,
+                     font = (fontFamily, fontSize),
+                     background = entryColor,
+                     foreground = "#000000"
+                     )
+    return entry
 
 def createRadioButton(parent, value, userInput, text):
     radioButton = tk.Radiobutton(parent,

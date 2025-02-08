@@ -3,10 +3,10 @@ from creator import createWindow, createFrame, createLabel, createTools
 
 def main():
     window = createWindow('PDF Toolkit', '800x600', False)
-    toolsContainer = createFrame(window, 230, 600)
-    displayContainer = createFrame(window, 570, 600)
+    toolsContainer = createFrame(window, 230, 600, 0.75)
+    displayContainer = createFrame(window, 570, 600, 0.75)
 
-    toolsContainerLabel = createLabel(toolsContainer, 24, "Tools", "underline")
+    toolsContainerLabel = createLabel(toolsContainer, 24, "Tools", 0, "underline")
     toolsContainerLabel.pack(pady = 5)
 
     displayContainerLabel = createLabel(displayContainer, 20,

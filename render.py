@@ -1,4 +1,5 @@
 import tkinter as tk
+import creator
 
 def renderButton(button, index):
     if index % 2:
@@ -10,18 +11,63 @@ def clearDisplay(displayContainer):
     for frame in displayContainer.winfo_children():
         frame.destroy()
 
-def renderMergePage(displayContainer):
+def setupPage(displayContainer):
     clearDisplay(displayContainer)
-    print('Merge')
+    frame = creator.createFrame(displayContainer, 570, 600)
+    frame.pack_propagate(False)
+    return frame
+
+def renderPage(frame, elements):
+    for element in elements:
+        element.pack(pady = 10)
+    frame.pack()
+
+def renderMergePage(displayContainer):
+    frame = setupPage(displayContainer)
+    elements = [
+        creator.createLabel(frame, 20, "Click the following button to add PDF files and click cancel in the dialog box to stop adding the files.", 500),
+        creator.createButton(frame, "Add PDFs", 20),
+        creator.createLabel(frame, 20, "Click the following button to reorder PDFs before merging.", 500),
+        creator.createButton(frame, "Reorder PDFs", 20),
+        creator.createLabel(frame, 20, "Click the following button to merge the PDFs."),
+        creator.createButton(frame, "Merge PDFs", 20)
+    ]
+    renderPage(frame, elements)
 
 def renderSplitPage(displayContainer):
-    clearDisplay(displayContainer)
-    print('Split')
+    frame = setupPage(displayContainer)
+    elements = [
+        creator.createLabel(frame, 20, "Click the following button to add a PDF file.", 500),
+        creator.createButton(frame, "Add PDF", 20),
+        creator.createLabel(frame, 19, "Enter the page numbers seperated by ','. (For example: 1, 3, 11-15)", 500),
+        creator.createEntry(frame, 35, 19),
+        creator.createButton(frame, "Split PDF", 20)
+    ]
+    renderPage(frame, elements)
+
 
 def renderDeletePage(displayContainer):
-    clearDisplay(displayContainer)
-    print('Delete')
+    frame = setupPage(displayContainer)
+    elements = [
+        creator.createLabel(frame, 20, "Click the following button to add a PDF file.", 500),
+        creator.createButton(frame, "Add PDF", 20),
+        creator.createLabel(frame, 19, "Enter the page numbers seperated by ','. (For example: 1, 3, 11-15)", 500),
+        creator.createEntry(frame, 35, 19),
+        creator.createButton(frame, "Delete pages", 20)
+    ]
+    renderPage(frame, elements)
+
+
 
 def renderRotatePage(displayContainer):
-    clearDisplay(displayContainer)
-    print('Rotate')
+    frame = setupPage(displayContainer)
+    elements = [
+        creator.createLabel(frame, 20, "Click the following button to add a PDF file.", 500),
+        creator.createButton(frame, "Add PDF", 20),
+        creator.createLabel(frame, 19, "Enter the page numbers seperated by ','. (For example: 1, 3, 11-15)", 500),
+        creator.createEntry(frame, 35, 19),
+        creator.createButton(frame, "Rotate pages", 20)
+    ]
+    renderPage(frame, elements)
+
+
