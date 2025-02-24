@@ -1,5 +1,6 @@
 import tkinter as tk
 import creator
+import handler
 
 def renderButton(button, index):
     if index % 2:
@@ -35,39 +36,48 @@ def renderMergePage(displayContainer):
     renderPage(frame, elements)
 
 def renderSplitPage(displayContainer):
+    pdf = [None]
     frame = setupPage(displayContainer)
     elements = [
         creator.createLabel(frame, 20, "Click the following button to add a PDF file.", 500),
         creator.createButton(frame, "Add PDF", 20),
-        creator.createLabel(frame, 19, "Enter the page numbers seperated by ','. (For example: 1, 3, 11-15)", 500),
+        creator.createLabel(frame, 20, "Total no. of pages : -"),
+        creator.createLabel(frame, 19, "Enter the page numbers seperated by \",\". (For example: 1, 3, 15). This results in the following partitions: (1, 2-3, 4-15, 15-END)", 500),
         creator.createEntry(frame, 35, 19),
         creator.createButton(frame, "Split PDF", 20)
     ]
+    elements[1].configure(command = lambda: handler.addPDF(pdf, elements[2]))
+    elements[5].configure(command = lambda: handler.splitPDF(pdf, elements[4]))
     renderPage(frame, elements)
 
 
 def renderDeletePage(displayContainer):
+    pdf = [None]
     frame = setupPage(displayContainer)
     elements = [
         creator.createLabel(frame, 20, "Click the following button to add a PDF file.", 500),
         creator.createButton(frame, "Add PDF", 20),
-        creator.createLabel(frame, 19, "Enter the page numbers seperated by ','. (For example: 1, 3, 11-15)", 500),
+        creator.createLabel(frame, 20, "Total no. of pages : -"),
+        creator.createLabel(frame, 19, "Enter the page numbers seperated by \",\". (For example: 1, 3, 11-15)", 500),
         creator.createEntry(frame, 35, 19),
         creator.createButton(frame, "Delete pages", 20)
     ]
+    elements[1].configure(command = lambda: handler.addPDF(pdf, elements[2]))
+    elements[5].configure(command = lambda: handler.deletePages(pdf, elements[4]))
     renderPage(frame, elements)
 
-
-
 def renderRotatePage(displayContainer):
+    pdf = [None]
     frame = setupPage(displayContainer)
     elements = [
         creator.createLabel(frame, 20, "Click the following button to add a PDF file.", 500),
         creator.createButton(frame, "Add PDF", 20),
-        creator.createLabel(frame, 19, "Enter the page numbers seperated by ','. (For example: 1, 3, 11-15)", 500),
+        creator.createLabel(frame, 20, "Total no. of pages : -"),
+        creator.createLabel(frame, 19, "Enter the page numbers seperated by \",\". (For example: 1, 3, 11-15)", 500),
         creator.createEntry(frame, 35, 19),
         creator.createButton(frame, "Rotate pages", 20)
     ]
+    elements[1].configure(command = lambda: handler.addPDF(pdf, elements[2]))
+    elements[5].configure(command = lambda: handler.rotatePages(pdf, elements[4]))
     renderPage(frame, elements)
-
 
