@@ -89,6 +89,7 @@ def splitPDF(pdf, entry):
                     writer.write(f"{baseFolder}/{baseName} part - {currentSplit}.pdf")
                     writer.close()
                 currentSplit += 1
+            tkmb.showinfo(title = "Split Operation", message = ("The partitions are stored at " + baseFolder))
         else:
             tkmb.showerror(title = "Error", message = "No folder was selected for saving the partitions.")
 
@@ -96,18 +97,19 @@ def deletePages(pdf, entry):
     pattern = r"^\d+(?:-\d+)?(?:,\d+(?:-\d+)?)*$"
     flag, pagesToDelete, reader, noOfPages = getMetadata(pdf, entry, pattern)
     if flag and pagesToDelete:
-        writer = pydf.PdfWriter()
-        currentPage = 1
-        while (currentPage <= noOfPages):
-            if currentPage not in pagesToDelete:
-                writer.insert_page(reader.pages[currentPage - 1], currentPage)
-            currentPage += 1
         saveFilePath = asksaveasfilename(defaultextension=".pdf", filetypes=[("PDF Files", "*.pdf")])
         if saveFilePath:
+            writer = pydf.PdfWriter()
+            currentPage = 1
+            while (currentPage <= noOfPages):
+                if currentPage not in pagesToDelete:
+                    writer.insert_page(reader.pages[currentPage - 1], currentPage)
+                currentPage += 1
+            saveFilePath = asksaveasfilename(defaultextension=".pdf", filetypes=[("PDF Files", "*.pdf")])
             writer.write(saveFilePath)
             tkmb.showinfo('Deleted Pages', ('The given pages were deleted successfully. PDF stored at : '+saveFilePath))
         else:
-            tkmb.showerror('Error', 'No destination was specified')
+            tkmb.showerror('Error', 'No destination was specified for saving the modified pdf file.')
 
 def rotatePages(pdf, entry):
     pattern = r"^\d+(?:-\d+)?(?:,\d+(?:-\d+)?)*$"
