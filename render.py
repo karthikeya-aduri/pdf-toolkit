@@ -42,7 +42,7 @@ def renderSplitPage(displayContainer):
         creator.createLabel(frame, 20, "Click the following button to add a PDF file.", 500),
         creator.createButton(frame, "Add PDF", 20),
         creator.createLabel(frame, 20, "Total no. of pages : -"),
-        creator.createLabel(frame, 19, "Enter the page numbers seperated by \",\". (For example: 1, 3, 15). This results in the following partitions: (1, 2-3, 4-15, 15-END)", 500),
+        creator.createLabel(frame, 19, "Enter the page numbers seperated by \",\". (For example: 1, 3, 15). This results in the following partitions: (1, 2-3, 4-15, 16-END)", 500),
         creator.createEntry(frame, 35, 19),
         creator.createButton(frame, "Split PDF", 20)
     ]
