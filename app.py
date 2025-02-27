@@ -2,7 +2,7 @@ import tkinter as tk
 from creator import createWindow, createFrame, createLabel, createTools
 
 def main():
-    window = createWindow('PDF Toolkit', '800x600', False)
+    window = createWindow('PDF Toolkit', '800x600', False, True)
     toolsContainer = createFrame(window, 230, 600, 0.75)
     displayContainer = createFrame(window, 570, 600, 0.75)
 

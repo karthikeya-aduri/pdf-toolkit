@@ -11,14 +11,15 @@ from constants import (
         fontFamily
 )
 
-def createWindow(title, geometry, resizableFlag):
+def createWindow(title, geometry, resizableFlag, iconFlag):
     window = tk.Tk()
 
     window.title(title)
     window.geometry(geometry)
     window.resizable(resizableFlag, resizableFlag)
     icon = tk.PhotoImage(file = "icon.png")
-    window.iconphoto(True, icon)
+    if iconFlag:
+        window.iconphoto(True, icon)
 
     return window
 
@@ -89,3 +90,11 @@ def createTools(toolsContainer, displayContainer):
         handleHover(button)
         renderButton(button, index)
 
+def createListbox(parent, width, height):
+    listbox = tk.Listbox(parent,
+                         width = width,
+                         height = height,
+                         background = backgroundColor,
+                         foreground = foregroundColor
+                        )
+    return listbox

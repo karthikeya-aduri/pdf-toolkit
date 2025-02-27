@@ -24,15 +24,17 @@ def renderPage(frame, elements):
     frame.pack()
 
 def renderMergePage(displayContainer):
+    pdfs = []
+    flag = [False]
     frame = setupPage(displayContainer)
     elements = [
         creator.createLabel(frame, 20, "Click the following button to add PDF files and click cancel in the dialog box to stop adding the files.", 500),
         creator.createButton(frame, "Add PDFs", 20),
-        creator.createLabel(frame, 20, "Click the following button to reorder PDFs before merging.", 500),
-        creator.createButton(frame, "Reorder PDFs", 20),
-        creator.createLabel(frame, 20, "Click the following button to merge the PDFs."),
-        creator.createButton(frame, "Merge PDFs", 20)
+        creator.createLabel(frame, 20, "Click the following button to reorder, merge PDFs.", 500),
+        creator.createButton(frame, "Reorder and Merge PDFs", 20),
     ]
+    elements[1].configure(command = lambda: handler.addPDFs(pdfs, flag))
+    elements[3].configure(command = lambda: handler.openMergeWindow(pdfs, flag))
     renderPage(frame, elements)
 
 def renderSplitPage(displayContainer):
