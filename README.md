@@ -18,7 +18,7 @@ python app.py
 
 2. Create an executable file
 ```python3
-pyinstaller --name PDFtools --windowed --onefile --icon=icon.png main.py
+pyinstaller --name PDFtools --windowed --onefile --icon=icon.png app.py
 ```
 Now you will find the app inside dist folder. Place the icon inside dist folder and now you may start using the application.
 
