@@ -22,12 +22,10 @@ Note: You can delete build folder, spec file and the python script after install
 - Split a PDF at desired locations
 - Delete multiple pages at once
 - Rotate multiples pages at once
-- Extract text content from PDFs
 
 ## Usage
-- The PDFs are merged in the order you select them
-- The PDFs are split based on user input
-- Deletion and Rotation also depend on user input but the order you give them does not matter.
+- The PDFs can be reordered before merging
+- The user input given to split, delete, rotate operations decides the pages to be modified in a PDF
 
 ## Screenshots
 ![image](./screenshots/Screenshot-1.png)
