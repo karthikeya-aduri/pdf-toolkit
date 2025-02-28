@@ -30,14 +30,12 @@ Note: You can delete build folder, spec file and the python script after install
 - Deletion and Rotation also depend on user input but the order you give them does not matter.
 
 ## Screenshots
-![image](./img/Screenshot-1.png)
+![image](./screenshots/Screenshot-1.png)
 
-![image](./img/Screenshot-2.png)
+![image](./screenshots/Screenshot-2.png)
 
-![image](./img/Screenshot-3.png)
+![image](./screenshots/Screenshot-3.png)
 
-![image](./img/Screenshot-4.png)
+![image](./screenshots/Screenshot-4.png)
 
-![image](./img/Screenshot-5.png)
-
-![image](./img/Screenshot-6.png)
+![image](./screenshots/Screenshot-5.png)
