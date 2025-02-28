@@ -71,15 +71,19 @@ def renderDeletePage(displayContainer):
 def renderRotatePage(displayContainer):
     pdf = [None]
     frame = setupPage(displayContainer)
+    usrChoice1 = tk.IntVar()
+    usrChoice2 = tk.IntVar()
+    rotateOptions = creator.createRotateOptions(frame, usrChoice1, usrChoice2)
     elements = [
         creator.createLabel(frame, 20, "Click the following button to add a PDF file.", 500),
         creator.createButton(frame, "Add PDF", 20),
         creator.createLabel(frame, 20, "Total no. of pages : -"),
         creator.createLabel(frame, 19, "Enter the page numbers seperated by \",\". (For example: 1, 3, 11-15)", 500),
         creator.createEntry(frame, 35, 19),
+        rotateOptions,
         creator.createButton(frame, "Rotate pages", 20)
     ]
     elements[1].configure(command = lambda: handler.addPDF(pdf, elements[2]))
-    elements[5].configure(command = lambda: handler.rotatePages(pdf, elements[4]))
+    elements[6].configure(command = lambda: handler.rotatePages(pdf, elements[4], usrChoice1.get(), usrChoice2.get()))
     renderPage(frame, elements)
 

@@ -192,13 +192,32 @@ def deletePages(pdf, entry):
             saveFilePath = asksaveasfilename(defaultextension = ".pdf", filetypes = [("PDF Files", "*.pdf")])
             writer.write(saveFilePath)
             writer.close()
-            tkmb.showinfo('Deleted Pages', ('The given pages were deleted successfully. PDF stored at : '+saveFilePath))
+            tkmb.showinfo('Deleted Pages', ('The given pages were deleted successfully. PDF stored at : ' + saveFilePath))
         else:
             tkmb.showerror('Error', 'No destination was specified for saving the modified pdf file.')
 
-def rotatePages(pdf, entry):
+def rotatePages(pdf, entry, rotationOption, angleOption):
+    if (rotationOption and angleOption) == 0:
+        tkmb.showerror(title = "Error", message = "Please select the rotation options before clicking the button.")
+        return
     pattern = r"^\d+(?:-\d+)?(?:,\d+(?:-\d+)?)*$"
     flag, pagesToRotate, reader, noOfPages = getMetadata(pdf, entry, pattern)
-    if flag:
-        pass
+    if flag and rotationOption and angleOption:
+        saveFilePath = asksaveasfilename(defaultextension = ".pdf", filetypes = [('PDF Files', '*.pdf')])
+        if saveFilePath:
+            rotationDirection = 1 if rotationOption % 2 else -1
+            angle = angleOption * 90 * rotationDirection
+            currentPage = 1
+            writer = pydf.PdfWriter()
+            while (currentPage <= noOfPages):
+                pageObj = reader.pages[currentPage - 1]
+                if (currentPage in pagesToRotate):
+                   pageObj.rotate(angle)
+                writer.insert_page(pageObj, currentPage)
+                currentPage += 1
+            writer.write(saveFilePath)
+            writer.close()
+            tkmb.showinfo('Rotated Pages', ('The given pages were rotated successfully. PDF stored at : ' + saveFilePath))
+        else:
+            tkmb.showerror(title = "Error", message = "No folder was selected for saving the output.")
 

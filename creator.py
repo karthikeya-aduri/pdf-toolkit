@@ -65,8 +65,8 @@ def createEntry(parent, width, fontSize):
                      )
     return entry
 
-def createRadioButton(parent, value, userInput, text):
-    radioButton = tk.Radiobutton(parent,
+def createMenuButton(parent, value, userInput, text):
+    menuButton = tk.Radiobutton(parent,
                                  value = value,
                                  variable = userInput,
                                  text = text,
@@ -79,16 +79,7 @@ def createRadioButton(parent, value, userInput, text):
                                  selectcolor = hoverColor,
                                  borderwidth = 0
                                  )
-    return radioButton
-
-def createTools(toolsContainer, displayContainer):
-    userInput = tk.IntVar(value = -1)
-    operations = ["Merge PDFs", "Split PDF", "Delete pages", "Rotate pages"]
-    for index, value in enumerate(operations):
-        button = createRadioButton(toolsContainer, index, userInput, value)
-        button.configure(command = lambda idx = index : callEventListener(displayContainer, idx))
-        handleHover(button)
-        renderButton(button, index)
+    return menuButton
 
 def createListbox(parent, width, height):
     listbox = tk.Listbox(parent,
@@ -98,3 +89,45 @@ def createListbox(parent, width, height):
                          foreground = foregroundColor
                         )
     return listbox
+
+def createRadioButton(parent, width, text, variable, value):
+    radioButton = tk.Radiobutton(parent,
+                                 width = width,
+                                 text = text,
+                                 variable = variable,
+                                 value = value,
+                                 font = (fontFamily, 15),
+                                 background = backgroundColor,
+                                 foreground = foregroundColor,
+                                 activebackground = backgroundColor,
+                                 activeforeground = foregroundColor,
+                                 selectcolor = hoverColor,
+                                 indicatoron = False,
+                                 relief = tk.FLAT
+                                 )
+    return radioButton
+
+def createRotateOptions(frame, usrChoice1, usrChoice2):
+    rotateOptions = createFrame(frame, 570, 20)
+    clockwiseButton = createRadioButton(rotateOptions, 14, "Clockwise", usrChoice1, 1)
+    clockwiseButton.grid(row = 0, column = 0, padx = 3, pady = 10)
+    antiClockwiseButton = createRadioButton(rotateOptions, 14, "Anti-clockwise", usrChoice1, 2)
+    antiClockwiseButton.grid(row = 0, column = 1, padx = 3, pady = 10)
+    rotate90 = createRadioButton(rotateOptions, 14, "90°", usrChoice2, 1)
+    rotate90.grid(row = 1, column = 0, padx = 3, pady = 10)
+    rotate180 = createRadioButton(rotateOptions, 14, "180°", usrChoice2, 2)
+    rotate180.grid(row = 1, column = 1, padx = 3, pady = 10)
+    rotate270 = createRadioButton(rotateOptions, 14, "270°", usrChoice2, 3)
+    rotate270.grid(row = 1, column = 2, padx = 3, pady = 10)
+    return rotateOptions
+
+def createTools(toolsContainer, displayContainer):
+    userInput = tk.IntVar(value = -1)
+    operations = ["Merge PDFs", "Split PDF", "Delete pages", "Rotate pages"]
+    for index, value in enumerate(operations):
+        button = createMenuButton(toolsContainer, index, userInput, value)
+        button.configure(command = lambda idx = index : callEventListener(displayContainer, idx))
+        handleHover(button)
+        renderButton(button, index)
+
+
