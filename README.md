@@ -9,7 +9,14 @@ Then clone the repository using
 ```git
 git clone https://github.com/karthikeya-aduri/project-pdf
 ```
-Then open terminal inside project-pdf folder/directory and run this command
+
+## Usage
+1. Use without executable file
+```python3
+python app.py
+```
+
+2. Create an executable file
 ```python3
 pyinstaller --name PDFtools --windowed --onefile --icon=icon.png main.py
 ```
@@ -19,13 +26,10 @@ Note: You can delete build folder, spec file and the python script after install
 
 ## Features
 - Merge PDFs across various folders
+- The PDFs can be reordered before merging
 - Split a PDF at desired locations
 - Delete multiple pages at once
 - Rotate multiples pages at once
-
-## Usage
-- The PDFs can be reordered before merging
-- The user input given to split, delete, rotate operations decides the pages to be modified in a PDF
 
 ## Screenshots
 ![image](./screenshots/Screenshot-1.png)
