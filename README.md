@@ -1,5 +1,5 @@
 ## Installation
-Windows and Linux users can use the [Releases](https://github.com/karthikeya-aduri/project-pdf/releases/) page for installation.
+Windows users can use the [Releases](https://github.com/karthikeya-aduri/project-pdf/releases/) page for installation.
 
 MacOS users require Python (latest version) and pip before installing the application. Run the following the command
 ```python3
